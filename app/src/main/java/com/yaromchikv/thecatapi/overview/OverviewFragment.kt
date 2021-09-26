@@ -1,10 +1,10 @@
 package com.yaromchikv.thecatapi.overview
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.yaromchikv.thecatapi.databinding.FragmentOverviewBinding
@@ -29,8 +29,12 @@ class OverviewFragment : Fragment() {
         _binding = null
     }
 
+    private val imageGridAdapter by lazy { ImageGridAdapter() }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.recyclerView.adapter = imageGridAdapter
 
         val repository = Repository()
         val viewModelFactory = OverviewViewModelFactory(repository)
@@ -39,14 +43,13 @@ class OverviewFragment : Fragment() {
         viewModel.getCat()
         viewModel.myResponse.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
-                response.body()?.forEach {
-                    Log.d("!!!", it.id)
-                    Log.d("!!!", it.url)
-                    Log.d("!!!", it.width.toString())
-                    Log.d("!!!", it.height.toString())
-                }
+                imageGridAdapter.submitList(response.body())
             } else {
-                Log.d("!!!", response.errorBody().toString())
+                Toast.makeText(
+                    requireContext(),
+                    response.code(),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
