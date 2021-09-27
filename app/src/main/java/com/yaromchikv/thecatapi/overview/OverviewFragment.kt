@@ -1,6 +1,7 @@
 package com.yaromchikv.thecatapi.overview
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,7 @@ class OverviewFragment : Fragment() {
         viewModel.myResponse.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 imageGridAdapter.submitList(response.body())
+                Log.d("LOG_TAG", response.headers().toString())
             } else {
                 Toast.makeText(
                     requireContext(),
