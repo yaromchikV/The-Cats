@@ -12,7 +12,7 @@ private const val BASE_URL = "https://api.thecatapi.com"
 
 interface TheCatApiService {
 
-    @GET("v1/images/search?limit=20&page=1&order=rand")
+    @GET("v1/images/search?limit=30&page=1&order=rand")
     suspend fun getCat(): Response<List<Cat>>
 }
 

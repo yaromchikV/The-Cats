@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.transform.RoundedCornersTransformation
+import coil.size.OriginalSize
+import coil.size.Precision
 import com.yaromchikv.thecatapi.R
 import com.yaromchikv.thecatapi.databinding.GridItemBinding
 import com.yaromchikv.thecatapi.model.Cat
@@ -22,7 +23,7 @@ class ImageGridAdapter() :
                 error(R.drawable.ic_broken_image)
                 crossfade(true)
                 crossfade(300)
-                transformations(RoundedCornersTransformation(10f))
+
             }
         }
     }
