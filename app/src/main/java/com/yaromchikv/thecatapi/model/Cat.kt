@@ -6,8 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Cat(
-    val id: String,
+    @Json(name = "id") val id: String,
     @Json(name = "url") val imageUrl: String,
-    val width: Int,
-    val height: Int
+    @Json(name = "width") val width: Int,
+    @Json(name = "height") val height: Int
 ) : Parcelable

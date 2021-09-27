@@ -59,18 +59,20 @@ class OverviewFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         val manager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        manager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+        manager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 
         binding.recyclerView.apply {
             adapter = imageGridAdapter
             layoutManager = manager
         }
 
-        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                (recyclerView.layoutManager as StaggeredGridLayoutManager?)?.invalidateSpanAssignments()
-            }
-        })
+        binding.recyclerView.itemAnimator = null
+
+//        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                super.onScrollStateChanged(recyclerView, newState)
+//                (recyclerView.layoutManager as StaggeredGridLayoutManager?)?.invalidateSpanAssignments()
+//            }
+//        })
     }
 }
