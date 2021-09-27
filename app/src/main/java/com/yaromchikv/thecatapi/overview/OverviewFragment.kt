@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.yaromchikv.thecatapi.databinding.FragmentOverviewBinding
 import com.yaromchikv.thecatapi.repository.Repository
-
 
 class OverviewFragment : Fragment() {
 
@@ -33,18 +32,26 @@ class OverviewFragment : Fragment() {
         _binding = null
     }
 
-    private val imageGridAdapter by lazy { ImageGridAdapter() }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpRecyclerView()
+        val manager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        manager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 
         val repository = Repository()
         val viewModelFactory = OverviewViewModelFactory(repository)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(OverviewViewModel::class.java)
 
-        viewModel.getCat()
+        val imageGridAdapter = ImageGridAdapter(ImageGridAdapter.OnClickListener {
+            viewModel.displayCatDetails(it)
+        })
+
+        binding.recyclerView.apply {
+            layoutManager = manager
+            adapter = imageGridAdapter
+            itemAnimator = null
+        }
+
         viewModel.myResponse.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 imageGridAdapter.submitList(response.body())
@@ -57,24 +64,12 @@ class OverviewFragment : Fragment() {
                 ).show()
             }
         })
-    }
 
-    private fun setUpRecyclerView() {
-        val manager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        manager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-
-        binding.recyclerView.apply {
-            adapter = imageGridAdapter
-            layoutManager = manager
-        }
-
-        binding.recyclerView.itemAnimator = null
-
-//        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                super.onScrollStateChanged(recyclerView, newState)
-//                (recyclerView.layoutManager as StaggeredGridLayoutManager?)?.invalidateSpanAssignments()
-//            }
-//        })
+        viewModel.navigateToSelectedCat.observe(viewLifecycleOwner, {
+            if (it != null) {
+                findNavController().navigate(OverviewFragmentDirections.actionShowDetail(it))
+                viewModel.displayCatDetailsComplete()
+            }
+        })
     }
 }

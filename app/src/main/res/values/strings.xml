@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">The Cat Api</string>
+    <string name="save_image">Save image</string>
 </resources>

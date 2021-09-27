@@ -10,9 +10,10 @@ import com.yaromchikv.thecatapi.R
 import com.yaromchikv.thecatapi.databinding.GridItemBinding
 import com.yaromchikv.thecatapi.model.Cat
 
-class ImageGridAdapter : ListAdapter<Cat, ImageGridAdapter.CatViewHolder>(DiffCallback) {
+class ImageGridAdapter(val onClickListener: OnClickListener) :
+    ListAdapter<Cat, ImageGridAdapter.CatViewHolder>(DiffCallback) {
 
-    class CatViewHolder(private var binding: GridItemBinding) :
+    inner class CatViewHolder(private var binding: GridItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(cat: Cat) {
             binding.imageView.heightRatio = cat.height.toFloat() / cat.width.toFloat()
@@ -21,6 +22,10 @@ class ImageGridAdapter : ListAdapter<Cat, ImageGridAdapter.CatViewHolder>(DiffCa
                 error(R.drawable.ic_broken_image)
                 crossfade(true)
                 crossfade(100)
+            }
+
+            itemView.setOnClickListener {
+                onClickListener.onClick(cat)
             }
         }
     }
@@ -42,5 +47,9 @@ class ImageGridAdapter : ListAdapter<Cat, ImageGridAdapter.CatViewHolder>(DiffCa
         override fun areContentsTheSame(oldItem: Cat, newItem: Cat): Boolean {
             return oldItem.id == newItem.id
         }
+    }
+
+    class OnClickListener(val clickListener: (cat: Cat) -> Unit) {
+        fun onClick(marsProperty: Cat) = clickListener(marsProperty)
     }
 }
