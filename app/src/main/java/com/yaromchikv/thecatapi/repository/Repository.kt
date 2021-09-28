@@ -6,7 +6,7 @@ import retrofit2.Response
 
 class Repository {
 
-    suspend fun getCat(): Response<List<Cat>> {
-        return RetrofitInstance.api.getCat()
+    suspend fun getCats(page: Int): Response<List<Cat>> {
+        return RetrofitInstance.api.getCats(page)
     }
 }

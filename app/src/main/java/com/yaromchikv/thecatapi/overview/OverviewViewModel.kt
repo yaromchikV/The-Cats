@@ -7,21 +7,34 @@ import androidx.lifecycle.viewModelScope
 import com.yaromchikv.thecatapi.model.Cat
 import com.yaromchikv.thecatapi.repository.Repository
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class OverviewViewModel(private val repository: Repository) : ViewModel() {
 
-    val myResponse: MutableLiveData<Response<List<Cat>>> = MutableLiveData()
+    val listOfCats = mutableListOf<Cat>()
+
+    private var page = 1
+
+    private val _isLoaded = MutableLiveData<Boolean>()
+    val isUploaded: LiveData<Boolean>
+        get() = _isLoaded
 
     init {
-        getCat()
+        getCats(page)
     }
 
-    private fun getCat() {
+    private fun getCats(page: Int) {
         viewModelScope.launch {
-            val response = repository.getCat()
-            myResponse.value = response
+            _isLoaded.value = true
+
+            val response = repository.getCats(page)
+            listOfCats += (response.body() as MutableList<Cat>)
+
+            _isLoaded.value = false
         }
+    }
+
+    fun loadMoreCats() {
+        getCats(++page)
     }
 
     private val _navigateToSelectedCat = MutableLiveData<Cat>()
