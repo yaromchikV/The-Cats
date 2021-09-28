@@ -8,16 +8,20 @@
     <fragment
         android:id="@+id/overviewFragment"
         android:name="com.yaromchikv.thecatapi.overview.OverviewFragment"
-        android:label="fragment_overview"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_overview">
         <action
             android:id="@+id/action_showDetail"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/card_flip_right_in"
+            app:exitAnim="@anim/card_flip_right_out"
+            app:popEnterAnim="@anim/card_flip_left_in"
+            app:popExitAnim="@anim/card_flip_left_out" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.yaromchikv.thecatapi.detail.DetailFragment"
-        android:label="fragment_detail"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_detail">
         <argument
             android:name="selectedCat"
