@@ -18,7 +18,8 @@ interface TheCatApiService {
     suspend fun getCats(
         @Query("page") page: Int,
         @Query("limit") limit: Int = 20,
-        @Query("order") order: String = "asc"
+        @Query("order") order: String = "asc",
+        @Query("mime_types") type: String = "jpg,png"
     ): Response<List<Cat>>
 }
 
