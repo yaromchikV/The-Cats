@@ -3,9 +3,7 @@ package com.yaromchikv.thecatapi.detail
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -44,10 +42,13 @@ class DetailFragment : Fragment() {
         ViewModelProvider(this).get(DetailViewModel::class.java)
     }
 
+    private val cat: Cat by lazy {
+        DetailFragmentArgs.fromBundle(requireArguments()).selectedCat
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val cat = DetailFragmentArgs.fromBundle(requireArguments()).selectedCat
+        setHasOptionsMenu(true)
 
         binding.catId.text = getString(R.string.cat_id, cat.id)
         binding.backgroundImage.load(cat.imageUrl) {
@@ -59,10 +60,19 @@ class DetailFragment : Fragment() {
             crossfade(true)
             crossfade(100)
         }
+    }
 
-        binding.saveButton.setOnClickListener {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.save_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.save_image) {
             checkPermissionAndSaveTheImage(cat)
+            return true
         }
+        return super.onOptionsItemSelected(item)
     }
 
     private var alertDialog: AlertDialog? = null

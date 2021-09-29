@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,25 +26,27 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
     private val app = application
 
     fun saveTheCat(cat: Cat) = viewModelScope.launch {
+        Log.d("!!!", "${cat.width}, ${cat.height} || ${cat.imageUrl}")
         val filename = "${cat.id}.jpeg"
-        val request = ImageRequest.Builder(app.applicationContext).data(cat.imageUrl).build()
+        val request = ImageRequest.Builder(app).data(cat.imageUrl).build()
         try {
-            val imageLoader = Coil.imageLoader(app.applicationContext)
+            val imageLoader = Coil.imageLoader(app)
             val bitmap = (imageLoader.execute(request).drawable as BitmapDrawable).bitmap
             saveMediaToStorage(bitmap, filename)
         } catch (e: Exception) {
-            Toast.makeText(app.applicationContext, e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(app, e.message, Toast.LENGTH_LONG).show()
         }
     }
 
     private fun saveMediaToStorage(bitmap: Bitmap, filename: String) {
+        val path = "Pictures/TheCatApi"
         var outputStream: OutputStream? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            app.applicationContext.contentResolver?.also { resolver ->
+            app.contentResolver?.also { resolver ->
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, path)
                 }
                 val imageUri: Uri? =
                     resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
@@ -58,8 +61,8 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
         outputStream?.use {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
             Toast.makeText(
-                app.applicationContext,
-                app.getString(R.string.saved_in_pictures, filename),
+                app,
+                app.getString(R.string.saved_in_pictures, filename, path),
                 Toast.LENGTH_SHORT
             ).show()
         }
