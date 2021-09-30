@@ -1,2 +1,2 @@
 rootProject.name = "The Cat Api"
-include ':app'
+include(":app")
