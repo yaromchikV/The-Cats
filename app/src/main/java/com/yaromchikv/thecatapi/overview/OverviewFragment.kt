@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.yaromchikv.thecatapi.databinding.FragmentOverviewBinding
 import com.yaromchikv.thecatapi.repository.Repository
 
-
 class OverviewFragment : Fragment() {
 
     private var _binding: FragmentOverviewBinding? = null
@@ -62,7 +61,8 @@ class OverviewFragment : Fragment() {
                 val firstVisibleItemPosition = firstVisibleItemPositions[0]
 
                 if (viewModel.isUploaded.value == false) {
-                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount &&
+                        firstVisibleItemPosition >= 0) {
                         binding.progressBar.visibility = View.VISIBLE
                         viewModel.loadMoreCats()
                     }

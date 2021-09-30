@@ -17,6 +17,7 @@ class ImageGridAdapter(val onClickListener: OnClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(cat: Cat) {
             binding.imageView.heightRatio = cat.height.toFloat() / cat.width.toFloat()
+
             binding.imageView.load(cat.imageUrl) {
                 placeholder(R.drawable.loading_animation)
                 error(R.drawable.ic_broken_image)

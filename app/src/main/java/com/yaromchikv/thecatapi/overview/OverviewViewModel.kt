@@ -12,7 +12,7 @@ class OverviewViewModel(private val repository: Repository) : ViewModel() {
 
     val listOfCats = mutableListOf<Cat>()
 
-    private var page = 1
+    private var page = 10
 
     private val _isLoaded = MutableLiveData<Boolean>()
     val isUploaded: LiveData<Boolean>
@@ -48,5 +48,4 @@ class OverviewViewModel(private val repository: Repository) : ViewModel() {
     fun displayCatDetailsComplete() {
         _navigateToSelectedCat.value = null
     }
-
 }

@@ -33,7 +33,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
             val imageLoader = Coil.imageLoader(app)
             val bitmap = (imageLoader.execute(request).drawable as BitmapDrawable).bitmap
             saveMediaToStorage(bitmap, filename)
-        } catch (e: Exception) {
+        } catch (e: IllegalAccessException) {
             Toast.makeText(app, e.message, Toast.LENGTH_LONG).show()
         }
     }
