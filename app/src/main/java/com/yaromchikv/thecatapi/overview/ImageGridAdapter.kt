@@ -22,7 +22,7 @@ class ImageGridAdapter(val onClickListener: OnClickListener) :
                 placeholder(R.drawable.loading_animation)
                 error(R.drawable.ic_broken_image)
                 crossfade(true)
-                crossfade(100)
+                crossfade(crossfadeValue)
             }
 
             itemView.setOnClickListener {
@@ -41,6 +41,8 @@ class ImageGridAdapter(val onClickListener: OnClickListener) :
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<Cat>() {
+        private const val crossfadeValue = 100
+
         override fun areItemsTheSame(oldItem: Cat, newItem: Cat): Boolean {
             return oldItem === newItem
         }

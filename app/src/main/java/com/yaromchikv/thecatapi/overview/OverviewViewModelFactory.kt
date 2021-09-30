@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.yaromchikv.thecatapi.repository.Repository
 
 class OverviewViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {
+    @Suppress("Unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return OverviewViewModel(repository) as T
     }

@@ -53,31 +53,31 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
-    //Navigation
+    // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
 
-    //Retrofit
+    // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
     // Header
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 
-    //Moshi
+    // Moshi
     implementation("com.squareup.moshi:moshi:1.12.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
 
-    //Moshi Converter
+    // Moshi Converter
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
-    //Coil
+    // Coil
     implementation("io.coil-kt:coil:1.3.2")
 
-    //Coroutines
+    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 
-    //Life cycle components
+    // Life cycle components
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")

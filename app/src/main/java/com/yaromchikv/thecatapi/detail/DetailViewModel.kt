@@ -59,12 +59,16 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
             outputStream = FileOutputStream(image)
         }
         outputStream?.use {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, bitmapQuality, it)
             Toast.makeText(
                 app,
                 app.getString(R.string.saved_in_pictures, filename, path),
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+
+    companion object {
+        private const val bitmapQuality = 100
     }
 }

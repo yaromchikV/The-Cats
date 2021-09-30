@@ -12,11 +12,15 @@ class OverviewViewModel(private val repository: Repository) : ViewModel() {
 
     val listOfCats = mutableListOf<Cat>()
 
-    private var page = 10
+    private var page = startPage
 
     private val _isLoaded = MutableLiveData<Boolean>()
     val isUploaded: LiveData<Boolean>
         get() = _isLoaded
+
+    private val _navigateToSelectedCat = MutableLiveData<Cat>()
+    val navigateToSelectedCat: LiveData<Cat>
+        get() = _navigateToSelectedCat
 
     init {
         getCats(page)
@@ -37,15 +41,15 @@ class OverviewViewModel(private val repository: Repository) : ViewModel() {
         getCats(++page)
     }
 
-    private val _navigateToSelectedCat = MutableLiveData<Cat>()
-    val navigateToSelectedCat: LiveData<Cat>
-        get() = _navigateToSelectedCat
-
     fun displayCatDetails(cat: Cat) {
         _navigateToSelectedCat.value = cat
     }
 
     fun displayCatDetailsComplete() {
         _navigateToSelectedCat.value = null
+    }
+
+    companion object {
+        private const val startPage = 10
     }
 }
