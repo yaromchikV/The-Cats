@@ -59,24 +59,21 @@ class DetailFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        binding.catId.text = getString(R.string.cat_id, cat.id)
-        binding.backgroundImage.load(cat.imageUrl) {
-            transformations(BlurTransformation(requireContext(), blurValue))
-        }
-        binding.detailImageView.load(cat.imageUrl) {
-            placeholder(R.drawable.loading_animation)
-            error(R.drawable.ic_broken_image)
-            crossfade(true)
-            crossfade(crossfadeValue)
+        with(binding) {
+            catId.text = getString(R.string.cat_id, cat.id)
+            backgroundImage.load(cat.imageUrl) {
+                transformations(BlurTransformation(requireContext(), BLUR_VALUE))
+            }
+            detailImageView.load(cat.imageUrl) {
+                placeholder(R.drawable.loading_animation)
+                error(R.drawable.ic_broken_image)
+                crossfade(true)
+                crossfade(CROSSFADE_VALUE)
+            }
         }
     }
 
@@ -123,8 +120,13 @@ class DetailFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
-        private const val blurValue = 15f
-        private const val crossfadeValue = 100
+        private const val BLUR_VALUE = 15f
+        private const val CROSSFADE_VALUE = 100
     }
 }

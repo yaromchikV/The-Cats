@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,7 +25,6 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
     private val app = application
 
     fun saveTheCat(cat: Cat) = viewModelScope.launch {
-        Log.d("!!!", "${cat.width}, ${cat.height} || ${cat.imageUrl}")
         val filename = "${cat.id}.jpeg"
         val request = ImageRequest.Builder(app).data(cat.imageUrl).build()
         try {
@@ -59,7 +57,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
             outputStream = FileOutputStream(image)
         }
         outputStream?.use {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, bitmapQuality, it)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, BITMAP_QUALITY, it)
             Toast.makeText(
                 app,
                 app.getString(R.string.saved_in_pictures, filename, path),
@@ -69,6 +67,6 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     companion object {
-        private const val bitmapQuality = 100
+        private const val BITMAP_QUALITY = 100
     }
 }

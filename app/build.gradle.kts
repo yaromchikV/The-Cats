@@ -73,6 +73,9 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil:1.3.2")
 
+    // Paging3
+    implementation("androidx.paging:paging-runtime:3.0.1")
+
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
