@@ -61,7 +61,6 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
 
         with(binding) {
             catId.text = getString(R.string.cat_id, cat.id)
@@ -73,6 +72,9 @@ class DetailFragment : Fragment() {
                 error(R.drawable.ic_broken_image)
                 crossfade(true)
                 crossfade(CROSSFADE_VALUE)
+                listener(onSuccess = { _, _ ->
+                    setHasOptionsMenu(true)
+                })
             }
         }
     }
