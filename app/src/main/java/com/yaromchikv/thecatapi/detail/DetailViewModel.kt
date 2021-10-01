@@ -37,14 +37,13 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun saveMediaToStorage(bitmap: Bitmap, filename: String) {
-        val path = "Pictures/TheCatApi"
         var outputStream: OutputStream? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             app.contentResolver?.also { resolver ->
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, path)
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, DIRECTORY)
                 }
                 val imageUri: Uri? =
                     resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
@@ -52,7 +51,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
             }
         } else {
             val imagesDir =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                Environment.getExternalStoragePublicDirectory(DIRECTORY)
             val image = File(imagesDir, filename)
             outputStream = FileOutputStream(image)
         }
@@ -60,13 +59,14 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
             bitmap.compress(Bitmap.CompressFormat.JPEG, BITMAP_QUALITY, it)
             Toast.makeText(
                 app,
-                app.getString(R.string.saved_in_pictures, filename, path),
+                app.getString(R.string.saved_in_pictures, filename, DIRECTORY),
                 Toast.LENGTH_SHORT
             ).show()
         }
     }
 
     companion object {
+        private const val DIRECTORY = "Pictures/TheCatApi"
         private const val BITMAP_QUALITY = 100
     }
 }

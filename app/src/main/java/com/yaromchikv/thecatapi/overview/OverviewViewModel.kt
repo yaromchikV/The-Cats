@@ -5,13 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.yaromchikv.thecatapi.model.Cat
 import com.yaromchikv.thecatapi.data.Repository
+import com.yaromchikv.thecatapi.model.Cat
 
 class OverviewViewModel : ViewModel() {
 
     private val repository = Repository()
-    val cats = repository.getCatImagesLiveData().cachedIn(viewModelScope)
+    val cats by lazy {
+        repository.getCatImagesLiveData().cachedIn(viewModelScope)
+    }
 
     private val _navigateToSelectedCat = MutableLiveData<Cat>()
     val navigateToSelectedCat: LiveData<Cat>

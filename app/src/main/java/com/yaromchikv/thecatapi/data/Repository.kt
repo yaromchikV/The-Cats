@@ -9,7 +9,9 @@ import com.yaromchikv.thecatapi.api.RetrofitInstance
 import com.yaromchikv.thecatapi.api.TheCatApiService
 import com.yaromchikv.thecatapi.model.Cat
 
-class Repository(private val apiService: TheCatApiService = RetrofitInstance.api) {
+class Repository {
+
+    private val apiService: TheCatApiService = RetrofitInstance.api
 
     private fun getDefaultPageConfig(): PagingConfig {
         return PagingConfig(pageSize = DEFAULT_PAGE_SIZE, enablePlaceholders = false)

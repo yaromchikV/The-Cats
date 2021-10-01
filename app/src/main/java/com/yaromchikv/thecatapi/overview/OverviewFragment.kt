@@ -1,5 +1,6 @@
 package com.yaromchikv.thecatapi.overview
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,19 +42,24 @@ class OverviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val manager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
-            gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-        }
+        val columnsCount = if (activity?.resources?.configuration?.orientation ==
+            Configuration.ORIENTATION_PORTRAIT
+        ) COLUMNS_COUNT_PORTRAIT else COLUMNS_COUNT_LANDSCAPE
+
+        val manager = StaggeredGridLayoutManager(columnsCount, StaggeredGridLayoutManager.VERTICAL)
+        manager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 
         binding.recyclerView.apply {
             layoutManager = manager
-            adapter = imageGridAdapter.withLoadStateFooter(TheCatsLoadStateAdapter())
+            adapter = imageGridAdapter.withLoadStateFooter(CatsLoadStateAdapter())
             itemAnimator = null
         }
 
         imageGridAdapter.addLoadStateListener { state ->
-            binding.recyclerView.isVisible = state.refresh != LoadState.Loading
-            binding.progressBar.isVisible = state.refresh == LoadState.Loading
+            binding.recyclerView.isVisible = state.refresh !is LoadState.Loading
+            binding.progressBar.isVisible = state.refresh is LoadState.Loading
+            binding.connectionErrorImage.isVisible = state.refresh is LoadState.Error
+            binding.connectionErrorText.isVisible = state.refresh is LoadState.Error
         }
 
         viewModel.cats.observe(viewLifecycleOwner, { newCats ->
@@ -73,5 +79,10 @@ class OverviewFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val COLUMNS_COUNT_PORTRAIT = 2
+        private const val COLUMNS_COUNT_LANDSCAPE = 4
     }
 }
