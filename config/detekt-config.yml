@@ -201,7 +201,6 @@ exceptions:
       - Error
       - Exception
       - IllegalMonitorStateException
-      - NullPointerException
       - IndexOutOfBoundsException
       - RuntimeException
       - Throwable

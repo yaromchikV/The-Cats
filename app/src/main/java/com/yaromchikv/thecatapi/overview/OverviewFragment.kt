@@ -2,6 +2,7 @@ package com.yaromchikv.thecatapi.overview
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,15 +52,17 @@ class OverviewFragment : Fragment() {
 
         binding.recyclerView.apply {
             layoutManager = manager
-            adapter = imageGridAdapter.withLoadStateFooter(CatsLoadStateAdapter())
+            adapter = imageGridAdapter.withLoadStateFooter(ProgressStateAdapter())
             itemAnimator = null
         }
 
-        imageGridAdapter.addLoadStateListener { state ->
-            binding.recyclerView.isVisible = state.refresh !is LoadState.Loading
-            binding.progressBar.isVisible = state.refresh is LoadState.Loading
-            binding.connectionErrorImage.isVisible = state.refresh is LoadState.Error
-            binding.connectionErrorText.isVisible = state.refresh is LoadState.Error
+        imageGridAdapter.addLoadStateListener {
+            try {
+                binding.progressBar.isVisible = it.refresh is LoadState.Loading
+                binding.connectionError.isVisible = it.refresh is LoadState.Error
+            } catch (exception: NullPointerException) {
+                Log.d("!!!!", "exception: $exception")
+            }
         }
 
         viewModel.cats.observe(viewLifecycleOwner, { newCats ->

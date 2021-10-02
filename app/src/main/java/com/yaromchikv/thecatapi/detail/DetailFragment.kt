@@ -64,9 +64,11 @@ class DetailFragment : Fragment() {
 
         with(binding) {
             catId.text = getString(R.string.cat_id, cat.id)
+
             backgroundImage.load(cat.imageUrl) {
                 transformations(BlurTransformation(requireContext(), BLUR_VALUE))
             }
+
             detailImageView.load(cat.imageUrl) {
                 placeholder(R.drawable.loading_animation)
                 error(R.drawable.ic_broken_image)
@@ -99,7 +101,7 @@ class DetailFragment : Fragment() {
         )
         when {
             checkPermission == PackageManager.PERMISSION_GRANTED -> {
-                viewModel.saveTheCat(cat)
+                viewModel.saveTheCatImage(cat.imageUrl)
             }
             shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
                 alertDialog.show()

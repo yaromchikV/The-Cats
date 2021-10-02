@@ -7,7 +7,7 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.yaromchikv.thecatapi.databinding.ItemProgressBinding
 
-class CatsLoadStateAdapter : LoadStateAdapter<CatsLoadStateAdapter.ProgressViewHolder>() {
+class ProgressStateAdapter : LoadStateAdapter<ProgressStateAdapter.ProgressViewHolder>() {
 
     override fun onBindViewHolder(holder: ProgressViewHolder, loadState: LoadState) {
         // Do nothing
