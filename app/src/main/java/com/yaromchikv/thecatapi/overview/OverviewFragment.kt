@@ -2,7 +2,6 @@ package com.yaromchikv.thecatapi.overview
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,7 @@ import kotlinx.coroutines.launch
 
 class OverviewFragment : Fragment() {
 
-    private var _binding: FragmentOverviewBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentOverviewBinding
 
     private val viewModel: OverviewViewModel by lazy {
         ViewModelProvider(this).get(OverviewViewModel::class.java)
@@ -36,7 +34,7 @@ class OverviewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOverviewBinding.inflate(inflater, container, false)
+        binding = FragmentOverviewBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -57,12 +55,8 @@ class OverviewFragment : Fragment() {
         }
 
         imageGridAdapter.addLoadStateListener {
-            try {
-                binding.progressBar.isVisible = it.refresh is LoadState.Loading
-                binding.connectionError.isVisible = it.refresh is LoadState.Error
-            } catch (exception: NullPointerException) {
-                Log.d("!!!!", "exception: $exception")
-            }
+            binding.progressBar.isVisible = it.refresh is LoadState.Loading
+            binding.connectionError.isVisible = it.refresh is LoadState.Error
         }
 
         viewModel.cats.observe(viewLifecycleOwner, { newCats ->
@@ -77,11 +71,6 @@ class OverviewFragment : Fragment() {
                 viewModel.displayCatDetailsComplete()
             }
         })
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

@@ -22,8 +22,7 @@ import com.yaromchikv.thecatapi.model.Cat
 
 class DetailFragment : Fragment() {
 
-    private var _binding: FragmentDetailBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentDetailBinding
 
     // Permission Request Handler
     private var requestPermissionLauncher =
@@ -55,7 +54,7 @@ class DetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -122,11 +121,6 @@ class DetailFragment : Fragment() {
         if (savedInstanceState != null && savedInstanceState.getBoolean("dialog", true)) {
             alertDialog.show()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {
