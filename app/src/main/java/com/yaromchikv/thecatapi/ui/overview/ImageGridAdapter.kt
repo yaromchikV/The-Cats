@@ -1,4 +1,4 @@
-package com.yaromchikv.thecatapi.overview
+package com.yaromchikv.thecatapi.ui.overview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

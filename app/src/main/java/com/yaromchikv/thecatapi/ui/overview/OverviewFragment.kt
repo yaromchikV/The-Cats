@@ -1,4 +1,4 @@
-package com.yaromchikv.thecatapi.overview
+package com.yaromchikv.thecatapi.ui.overview
 
 import android.content.res.Configuration
 import android.os.Bundle

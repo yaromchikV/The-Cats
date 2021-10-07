@@ -1,4 +1,4 @@
-package com.yaromchikv.thecatapi.detail
+package com.yaromchikv.thecatapi.ui.detail
 
 import android.Manifest
 import android.content.pm.PackageManager

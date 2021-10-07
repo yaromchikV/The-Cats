@@ -1,4 +1,4 @@
-package com.yaromchikv.thecatapi.overview
+package com.yaromchikv.thecatapi.ui.overview
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

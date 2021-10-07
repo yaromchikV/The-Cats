@@ -200,6 +200,7 @@ exceptions:
       - ArrayIndexOutOfBoundsException
       - Error
       - Exception
+      - NullPointerException
       - IllegalMonitorStateException
       - IndexOutOfBoundsException
       - RuntimeException

@@ -23,8 +23,9 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro")
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -37,10 +38,11 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    useLibrary("android.test.mock")
 }
 
 dependencies {
-
     val kotlinVersion: String? by extra
     implementation(kotlin("stdlib", version = kotlinVersion))
 
@@ -49,9 +51,16 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+
+    // Tests
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    androidTestImplementation("androidx.test:core:1.4.0")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test.ext:truth:1.4.0")
+    androidTestImplementation("com.google.truth:truth:0.42")
 
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
@@ -82,7 +91,6 @@ dependencies {
 
     // Life cycle components
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
 }
 
